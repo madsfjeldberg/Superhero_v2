@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 
 // attributes
 public class Userinterface {
-    private final Database db;
+    private final Controller controller;
     Scanner input;
 
     // konstruktør
     public Userinterface() {
-        db = new Database();
+        controller = new Controller();
         input = new Scanner(System.in);
     }
 
@@ -24,7 +24,7 @@ public class Userinterface {
 
     // tilføj superhelt til database
     public void addSuperhero() {
-        if (db.getSize() < db.getMaxSize()) {
+        if (controller.getSize() < controller.getMaxSize()) {
             System.out.println("Indtast data:\n");
             System.out.print("Superheltenavn (skriv 'n' hvis de ikke har et): ");
             String name = input.nextLine();
@@ -79,24 +79,26 @@ public class Userinterface {
             int strength = input.nextInt();
             System.out.println();
 
-            db.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
+            controller.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
             System.out.println("Superhelt tilføjet til databasen.\n");
         } else System.out.println("Database er fuld.\n");
     }
 
     // redigerer en superhelt
     public void edit() {
+
+        //TODO: brug indbygget search funktion i stedet
         ArrayList<Superhero> foundSuperheroes = new ArrayList<>();
 
         System.out.println("Superhelte i database:");
-        for (Superhero hero: db.getHeroList())
+        for (Superhero hero: controller.getHeroList())
             System.out.println(hero.getName());
 
         System.out.print("Hvilken superhelt vil du redigere?: ");
         String search = input.nextLine();
         System.out.println();
         Superhero chosenSuperhero = null;
-        for (Superhero i : db.getHeroList()) {
+        for (Superhero i : controller.getHeroList()) {
             if (i.getName().toLowerCase().contains(search.toLowerCase()) ||
                     i.getRealName().toLowerCase().contains(search.toLowerCase())) {
                 foundSuperheroes.add(i);
@@ -126,14 +128,17 @@ public class Userinterface {
 
         if (chosenIndex > 0 && chosenIndex <= foundSuperheroes.size()) {
             chosenSuperhero = foundSuperheroes.get(chosenIndex - 1);
-            System.out.println(db.showInfo(chosenSuperhero));
+            System.out.println(controller.showInfo(chosenSuperhero));
             System.out.println("0. Cancel");
         }
 
+        // TODO: ændr det her (somehow)
         if (chosenSuperhero != null) {
             String changeValueMessage = "Indtast ny værdi: ";
             System.out.print("Hvad vil du ændre?: ");
             System.out.println();
+            int choice = input.nextInt();
+            controller.edit(chosenSuperhero, choice);
             switch (input.nextInt()) {
                 case 1 -> {
                     System.out.print(changeValueMessage);
@@ -166,13 +171,14 @@ public class Userinterface {
                 case 0 -> { }
                 default -> System.out.println("Ugyldigt svar.");
             }
-            db.showInfo(chosenSuperhero);
+
+            controller.showInfo(chosenSuperhero);
         } else System.out.println("Superhelt ikke fundet.");
     }
 
     // sletter en superhelt fra databasen
     public void delete() {
-        System.out.println(db.indexedList());
+        System.out.println(controller.indexedList());
         System.out.print("Hvem skal slettes fra databasen? ");
         while (true) {
             if (!input.hasNextInt()) {
@@ -180,13 +186,13 @@ public class Userinterface {
                 input.next();
             } else {
                 int choice = input.nextInt();
-                if (choice >= 1 && choice <= db.getHeroList().size()) {
-                    db.delete(choice);
+                if (choice >= 1 && choice <= controller.getHeroList().size()) {
+                    controller.delete(choice);
                     System.out.println("\nSletter fra database...");
                     System.out.println("Superhelt slettet.\n");
                     break;
                 } else {
-                    System.out.println("Du skal indtaste gyldigt tal mellem 1 og " + db.getHeroList().size() + ".");
+                    System.out.println("Du skal indtaste gyldigt tal mellem 1 og " + controller.getHeroList().size() + ".");
                 }
             }
         }
@@ -218,11 +224,14 @@ public class Userinterface {
             input.nextLine(); // fjerner dead space hvis det eksisterer
             switch (choice) {
                 case 1 -> addSuperhero();
-                case 2 -> System.out.println(db.showList());
+                case 2 -> System.out.println(controller.showList());
                 case 3 -> {
                     System.out.println("Søg efter superhelt: ");
                     String search = input.nextLine();
-                    System.out.println(db.search(search));
+                    for (Superhero hero: controller.search(search)) {
+                        System.out.println(controller.showInfo(hero));
+                        System.out.println();
+                    }
                 }
                 case 4 -> edit();
                 case 5 -> delete();

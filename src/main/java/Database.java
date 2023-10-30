@@ -43,6 +43,10 @@ public class Database {
         return output.toString();
     }
 
+    public void edit(Superhero hero, int choice) {
+
+    }
+
     public String showInfo(Superhero hero) {
         String output = "";
         output += "1. Superheltenavn: " + hero.getName() + "\n";
@@ -67,16 +71,18 @@ public class Database {
         heroList.remove(choice - 1);
     }
 
-
-    // TODO: vis flere heroes hvis man f.eks. søger efter 'man'
-    public String search(String query) {
+    public ArrayList<Superhero> search(String query) {
+        ArrayList<Superhero> foundHeroes = new ArrayList<>();
         for (Superhero hero : heroList) {
             if (hero.getName().toLowerCase().contains(query.toLowerCase()) ||
                     hero.getRealName().toLowerCase().contains(query.toLowerCase())) {
-                return showInfo(hero);
+                foundHeroes.add(hero);
             }
         }
-        return "Superhelt ikke fundet.";
+        if (foundHeroes.isEmpty()) {
+            System.out.println("No hero found");
+        }
+        return foundHeroes;
     }
 
     public void addSuperhero(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {
