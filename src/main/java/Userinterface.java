@@ -94,7 +94,7 @@ public class Userinterface {
         for (Superhero hero: controller.getHeroList())
             System.out.println(hero.getName());
 
-        System.out.print("Hvilken superhelt vil du redigere?: ");
+        System.out.print("Hvilken superhelt vil du redigere(indtast navn eller forbogstav)?: ");
         String search = input.nextLine();
         System.out.println();
         Superhero chosenSuperhero = null;
