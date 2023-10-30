@@ -87,8 +87,10 @@ public class Userinterface {
     // redigerer en superhelt
     public void edit() {
         ArrayList<Superhero> foundSuperheroes = new ArrayList<>();
+
         System.out.println("Superhelte i database:");
-        for (Superhero hero: db.getHeroList()) System.out.println(hero.getName());
+        for (Superhero hero: db.getHeroList())
+            System.out.println(hero.getName());
 
         System.out.print("Hvilken superhelt vil du redigere?: ");
         String search = input.nextLine();
@@ -125,6 +127,7 @@ public class Userinterface {
         if (chosenIndex > 0 && chosenIndex <= foundSuperheroes.size()) {
             chosenSuperhero = foundSuperheroes.get(chosenIndex - 1);
             System.out.println(db.showInfo(chosenSuperhero));
+            System.out.println("0. Cancel");
         }
 
         if (chosenSuperhero != null) {
@@ -160,6 +163,7 @@ public class Userinterface {
                     System.out.println(changeValueMessage);
                     chosenSuperhero.setStrength(input.nextInt());
                 }
+                case 0 -> { }
                 default -> System.out.println("Ugyldigt svar.");
             }
             db.showInfo(chosenSuperhero);
@@ -202,6 +206,7 @@ public class Userinterface {
         System.out.print("> ");
     }
 
+    // TODO: exception handling ved indtastning af andet end int
     // viser menu, og kører alle metoder for databasen
     public void runDatabase() {
         boolean run = true;

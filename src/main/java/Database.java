@@ -50,7 +50,7 @@ public class Database {
         output += "3. Superkræft: " + hero.getSuperPower() + "\n";
         output += "4. Oprindelsesår: " + hero.getYearCreated() + "\n";
         output += "5. Er menneske: " + hero.isHuman() + "\n";
-        output += "6. Styrke: " + hero.getStrength() + "\n";
+        output += "6. Styrke: " + hero.getStrength();
         return output;
     }
 
@@ -67,6 +67,8 @@ public class Database {
         heroList.remove(choice - 1);
     }
 
+
+    // TODO: vis flere heroes hvis man f.eks. søger efter 'man'
     public String search(String query) {
         for (Superhero hero : heroList) {
             if (hero.getName().toLowerCase().contains(query.toLowerCase()) ||
@@ -82,6 +84,5 @@ public class Database {
         heroList.add(superhero);
         size++;
     }
-
 
 }
