@@ -1,10 +1,13 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.io.PrintStream;
 
 
 public class Database {
 
     // attributes
-    private final ArrayList<Superhero> heroList;
+    private ArrayList<Superhero> heroList;
     private int size;
     private final int maxSize;
 
@@ -13,7 +16,7 @@ public class Database {
         heroList = new ArrayList<>();
         size = 0;
         maxSize = 10;
-
+        // TODO: skal nok fjernes når vi skal bruge printstream
         // temp superhelte for testing
         Superhero superhero = new Superhero("Batman", "Bruce Wayne", "Money", 1980, "JA", 200);
         Superhero superhero1 = new Superhero("Superman", "Clark Kent", "Flight", 1990, "NEJ", 2000);
@@ -25,6 +28,10 @@ public class Database {
 
     public ArrayList<Superhero> getHeroList() {
         return heroList;
+    }
+
+    public void setHeroList(ArrayList<Superhero> list) {
+        this.heroList = list;
     }
 
     public int getSize() {
@@ -43,6 +50,7 @@ public class Database {
         return output.toString();
     }
 
+    // skal måske bruges på et tidspunkt?
     public void edit(Superhero hero, int choice) {
 
     }
@@ -58,6 +66,7 @@ public class Database {
         return output;
     }
 
+    // viser en nummereret liste over alle superhelt
     public String indexedList() {
         int index = 1;
         StringBuilder output = new StringBuilder();
@@ -68,9 +77,10 @@ public class Database {
     }
 
     public void delete(int choice) {
-        heroList.remove(choice - 1);
+        heroList.remove(choice);
     }
 
+    // viser en liste af superhelte der passer med 'query'
     public ArrayList<Superhero> search(String query) {
         ArrayList<Superhero> foundHeroes = new ArrayList<>();
         for (Superhero hero : heroList) {

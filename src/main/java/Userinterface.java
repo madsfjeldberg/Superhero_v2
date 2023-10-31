@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 
 // attributes
 public class Userinterface {
-    private final Controller controller;
+    private final Controller ctrl;
     Scanner input;
 
     // konstruktør
     public Userinterface() {
-        controller = new Controller();
+        ctrl = new Controller();
         input = new Scanner(System.in);
     }
 
@@ -19,33 +19,33 @@ public class Userinterface {
     public boolean stringTester(String string) {
         Pattern pattern = Pattern.compile("^[A-Za-z]+$");
         Matcher matcher = pattern.matcher(string);
-        return matcher.find();
+        return !matcher.find();
     }
 
     // tilføj superhelt til database
     public void addSuperhero() {
-        if (controller.getSize() < controller.getMaxSize()) {
+        if (ctrl.getDatabaseSize() < ctrl.getMaxDatabaseSize()) {
             System.out.println("Indtast data:\n");
             System.out.print("Superheltenavn (skriv 'n' hvis de ikke har et): ");
             String name = input.nextLine();
             if  (name.equals("n")) {
                 name = "";
             }
-            while (!stringTester(name)) {
+            while (stringTester(name)) {
                 System.out.println("Du skal indtaste et gyldigt navn.");
                 name = input.nextLine();
             }
 
             System.out.print("\nRigtige navn: ");
             String realName = input.nextLine();
-            while (!stringTester(realName)) {
+            while (stringTester(realName)) {
                 System.out.println("Du skal indtaste et gyldigt navn.");
                 input.nextLine();
             }
 
             System.out.print("\nSuperkræft: ");
             String superPower = input.nextLine();
-            while (!stringTester(superPower)) {
+            while (stringTester(superPower)) {
                 System.out.println("Du skal indtaste en gyldig superkræft.");
                 input.nextLine();
             }
@@ -79,7 +79,7 @@ public class Userinterface {
             int strength = input.nextInt();
             System.out.println();
 
-            controller.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
+            ctrl.addSuperheroToFile(name, realName, superPower, yearCreated, isHuman, strength);
             System.out.println("Superhelt tilføjet til databasen.\n");
         } else System.out.println("Database er fuld.\n");
     }
@@ -91,14 +91,14 @@ public class Userinterface {
         ArrayList<Superhero> foundSuperheroes = new ArrayList<>();
 
         System.out.println("Superhelte i database:");
-        for (Superhero hero: controller.getHeroList())
+        for (Superhero hero: ctrl.getHeroList())
             System.out.println(hero.getName());
 
         System.out.print("Hvilken superhelt vil du redigere(indtast navn eller forbogstav)?: ");
         String search = input.nextLine();
         System.out.println();
         Superhero chosenSuperhero = null;
-        for (Superhero i : controller.getHeroList()) {
+        for (Superhero i : ctrl.getHeroList()) {
             if (i.getName().toLowerCase().contains(search.toLowerCase()) ||
                     i.getRealName().toLowerCase().contains(search.toLowerCase())) {
                 foundSuperheroes.add(i);
@@ -128,7 +128,7 @@ public class Userinterface {
 
         if (chosenIndex > 0 && chosenIndex <= foundSuperheroes.size()) {
             chosenSuperhero = foundSuperheroes.get(chosenIndex - 1);
-            System.out.println(controller.showInfo(chosenSuperhero));
+            System.out.println(ctrl.showInfo(chosenSuperhero));
             System.out.println("0. Cancel");
         }
 
@@ -138,7 +138,7 @@ public class Userinterface {
             System.out.print("Hvad vil du ændre?: ");
             System.out.println();
             int choice = input.nextInt();
-            controller.edit(chosenSuperhero, choice);
+            ctrl.edit(chosenSuperhero, choice);
             switch (input.nextInt()) {
                 case 1 -> {
                     System.out.print(changeValueMessage);
@@ -172,13 +172,13 @@ public class Userinterface {
                 default -> System.out.println("Ugyldigt svar.");
             }
 
-            controller.showInfo(chosenSuperhero);
+            ctrl.showInfo(chosenSuperhero);
         } else System.out.println("Superhelt ikke fundet.");
     }
 
     // sletter en superhelt fra databasen
     public void delete() {
-        System.out.println(controller.indexedList());
+        System.out.println(ctrl.indexedList());
         System.out.print("Hvem skal slettes fra databasen? ");
         while (true) {
             if (!input.hasNextInt()) {
@@ -186,15 +186,24 @@ public class Userinterface {
                 input.next();
             } else {
                 int choice = input.nextInt();
-                if (choice >= 1 && choice <= controller.getHeroList().size()) {
-                    controller.delete(choice);
+                if (choice >= 1 && choice <= ctrl.getHeroList().size()) {
+                    ctrl.delete(choice - 1); // kald til database for at slette
                     System.out.println("\nSletter fra database...");
                     System.out.println("Superhelt slettet.\n");
                     break;
                 } else {
-                    System.out.println("Du skal indtaste gyldigt tal mellem 1 og " + controller.getHeroList().size() + ".");
+                    System.out.println("Du skal indtaste gyldigt tal mellem 1 og " + ctrl.getHeroList().size() + ".");
                 }
             }
+        }
+    }
+
+    public void search() {
+        System.out.println("Søg efter superhelt: ");
+        String search = input.nextLine();
+        for (Superhero hero: ctrl.search(search)) {
+            System.out.println(ctrl.showInfo(hero));
+            System.out.println();
         }
     }
 
@@ -214,6 +223,7 @@ public class Userinterface {
 
     // TODO: exception handling ved indtastning af andet end int
     // viser menu, og kører alle metoder for databasen
+
     public void runDatabase() {
         boolean run = true;
         int choice;
@@ -224,15 +234,8 @@ public class Userinterface {
             input.nextLine(); // fjerner dead space hvis det eksisterer
             switch (choice) {
                 case 1 -> addSuperhero();
-                case 2 -> System.out.println(controller.showList());
-                case 3 -> {
-                    System.out.println("Søg efter superhelt: ");
-                    String search = input.nextLine();
-                    for (Superhero hero: controller.search(search)) {
-                        System.out.println(controller.showInfo(hero));
-                        System.out.println();
-                    }
-                }
+                case 2 -> System.out.println(ctrl.showList());
+                case 3 -> search();
                 case 4 -> edit();
                 case 5 -> delete();
                 case 9 -> run = false;

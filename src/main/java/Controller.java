@@ -1,12 +1,14 @@
 import java.util.ArrayList;
 
-// TODO: hele molevitten
 public class Controller {
 
-    private Database db;
+    private final Database db;
+    private final FileWorker fw;
 
     public Controller() {
         db = new Database();
+        fw = new FileWorker();
+        db.setHeroList(fw.loadList());
     }
 
     public void delete(int choice) {
@@ -33,11 +35,11 @@ public class Controller {
         return db.showList();
     }
 
-    public int getSize() {
+    public int getDatabaseSize() {
         return db.getSize();
     }
 
-    public int getMaxSize() {
+    public int getMaxDatabaseSize() {
         return db.getMaxSize();
     }
 
@@ -48,4 +50,14 @@ public class Controller {
     public void edit(Superhero hero, int choice) {
         db.edit(hero, choice);
     }
+
+    public void addSuperheroToFile(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {
+        fw.addSuperheroToFile(name, realName, superPower, yearCreated, isHuman, strength);
+    }
+
+    public void saveList(ArrayList<Superhero> list) {
+        fw.saveList(list);
+    }
+
+
 }
