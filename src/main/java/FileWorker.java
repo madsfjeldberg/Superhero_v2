@@ -18,6 +18,7 @@ public class FileWorker {
         }
     }
 
+    /*
     public void addSuperheroToFile(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {
         File file = new File("herolist.csv");
         try {
@@ -28,11 +29,12 @@ public class FileWorker {
             System.out.println("'herolist.csv' not found.");
         }
     }
+    */
 
 
     public void saveList(ArrayList<Superhero> list) {
         File file = new File("herolist.csv");
-        PrintStream output = null;
+        PrintStream output;
         try {
             output = new PrintStream(file);
         } catch (FileNotFoundException e) {

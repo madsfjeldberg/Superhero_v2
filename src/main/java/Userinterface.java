@@ -1,8 +1,6 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 // attributes
 public class Userinterface {
@@ -88,58 +86,29 @@ public class Userinterface {
     public void edit() {
 
         //TODO: brug indbygget search funktion i stedet
-        ArrayList<Superhero> foundSuperheroes = new ArrayList<>();
 
         System.out.println("Superhelte i database:");
-        for (Superhero hero: ctrl.getHeroList())
-            System.out.println(hero.getName());
+        System.out.println(ctrl.showList());
 
-        System.out.print("Hvilken superhelt vil du redigere(indtast navn eller forbogstav)?: ");
+        System.out.print("Hvilken superhelt vil du redigere?: ");
         String search = input.nextLine();
-        System.out.println();
         Superhero chosenSuperhero = null;
-        for (Superhero i : ctrl.getHeroList()) {
-            if (i.getName().toLowerCase().contains(search.toLowerCase()) ||
-                    i.getRealName().toLowerCase().contains(search.toLowerCase())) {
-                foundSuperheroes.add(i);
+        for (Superhero hero : ctrl.getHeroList()) {
+            if (hero.getName().equalsIgnoreCase(search) ||
+                    hero.getRealName().equalsIgnoreCase(search)) {
+                chosenSuperhero = hero;
             }
-        }
-        int chosenIndex;
-        if (foundSuperheroes.size() > 1) {
-            int index = 1;
-            for (Superhero hero : foundSuperheroes) {
-                System.out.printf("%d. %s\n", index, hero.getName());
-                index++;
-            }
-            System.out.print("Vælg en superhelt: ");
-            System.out.println();
-
-            while (!input.hasNextInt()) {
-                System.out.println("Du skal indtaste et tal.");
-                input.next();
-            }
-            chosenIndex = input.nextInt();
-        } else if (foundSuperheroes.isEmpty()) {
-            System.out.println("ikke fundet.");
-            return;
-        } else {
-            chosenIndex = 1;
-        }
-
-        if (chosenIndex > 0 && chosenIndex <= foundSuperheroes.size()) {
-            chosenSuperhero = foundSuperheroes.get(chosenIndex - 1);
-            System.out.println(ctrl.showInfo(chosenSuperhero));
-            System.out.println("0. Cancel");
         }
 
         // TODO: ændr det her (somehow)
         if (chosenSuperhero != null) {
             String changeValueMessage = "Indtast ny værdi: ";
+            System.out.println(ctrl.showInfo(chosenSuperhero));
             System.out.print("Hvad vil du ændre?: ");
             System.out.println();
             int choice = input.nextInt();
             ctrl.edit(chosenSuperhero, choice);
-            switch (input.nextInt()) {
+            switch (choice) {
                 case 1 -> {
                     System.out.print(changeValueMessage);
                     input.nextLine();
@@ -171,8 +140,8 @@ public class Userinterface {
                 case 0 -> { }
                 default -> System.out.println("Ugyldigt svar.");
             }
-
-            ctrl.showInfo(chosenSuperhero);
+            System.out.println("Superhelt opdateret:");
+            System.out.println(ctrl.showInfo(chosenSuperhero));
         } else System.out.println("Superhelt ikke fundet.");
     }
 
@@ -225,7 +194,6 @@ public class Userinterface {
 
     // TODO: exception handling ved indtastning af andet end int
     // viser menu, og kører alle metoder for databasen
-
     public void runDatabase() {
         boolean run = true;
         int choice;

@@ -51,10 +51,6 @@ public class Controller {
         db.edit(hero, choice);
     }
 
-    public void addSuperheroToFile(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {
-        fw.addSuperheroToFile(name, realName, superPower, yearCreated, isHuman, strength);
-    }
-
     public void saveList() {
         fw.saveList(db.getHeroList());
     }

@@ -1,8 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.io.PrintStream;
-
 
 public class Database {
 
@@ -43,9 +39,7 @@ public class Database {
     }
 
     // skal måske bruges på et tidspunkt?
-    public void edit(Superhero hero, int choice) {
-
-    }
+    public void edit(Superhero hero, int choice) {}
 
     public String showInfo(Superhero hero) {
         String output = "";
