@@ -10,7 +10,7 @@ public class FileWorker {
     private final Scanner reader;
 
     public FileWorker() {
-        file = new File("herolist.txt");
+        file = new File("herolist.csv");
         try {
             reader = new Scanner(file);
         } catch (FileNotFoundException e) {
@@ -19,28 +19,29 @@ public class FileWorker {
     }
 
     public void addSuperheroToFile(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {
-        File file = new File("herolist.txt");
+        File file = new File("herolist.csv");
         try {
             PrintStream output = new PrintStream(file);
             output.println(name + ", " + realName + ", " + superPower + ", " + yearCreated + ", " + isHuman + ", " + strength);
             output.close();
         } catch (FileNotFoundException fnfe) {
-            System.out.println("'herolist.txt' not found.");
+            System.out.println("'herolist.csv' not found.");
         }
     }
 
+
     public void saveList(ArrayList<Superhero> list) {
-        File file = new File("herolist.txt");
+        File file = new File("herolist.csv");
         PrintStream output = null;
         try {
             output = new PrintStream(file);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        // TODO: split hver attribut til substring, print individuelt
         for (Superhero hero: list) {
             output.println(hero);
         }
-
     }
 
     public ArrayList<Superhero> loadList() {
@@ -55,15 +56,23 @@ public class FileWorker {
 
         while (reader.hasNextLine()) {
             String[] heroValues = reader.nextLine().split(",");
-            name = heroValues[0];
-            realName = heroValues[1];
-            superPower = heroValues[2];
-            yearCreated = Integer.parseInt(heroValues[3]);
-            isHuman = heroValues[4];
-            strength = Integer.parseInt(heroValues[5]);
+            name = trimString(heroValues[0]);
+            realName = trimString(heroValues[1]);
+            superPower = trimString(heroValues[2]);
+            yearCreated = parseTrim(heroValues[3]);
+            isHuman = trimString(heroValues[4]);
+            strength = parseTrim(heroValues[5]);
             Superhero hero = new Superhero(name, realName,superPower, yearCreated, isHuman, strength);
             heroList.add(hero);
         }
         return heroList;
+    }
+
+    private String trimString(String input) {
+        return input.trim();
+    }
+
+    private int parseTrim(String input) {
+        return Integer.parseInt(input.trim());
     }
 }

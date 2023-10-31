@@ -17,7 +17,7 @@ public class Userinterface {
 
     // tjekker om der er tal eller symboler i et string request
     public boolean stringTester(String string) {
-        Pattern pattern = Pattern.compile("^[A-Za-z]+$");
+        Pattern pattern = Pattern.compile("^[A-Za-z]+( [A-Za-z]+)?$");
         Matcher matcher = pattern.matcher(string);
         return !matcher.find();
     }
@@ -79,7 +79,7 @@ public class Userinterface {
             int strength = input.nextInt();
             System.out.println();
 
-            ctrl.addSuperheroToFile(name, realName, superPower, yearCreated, isHuman, strength);
+            ctrl.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
             System.out.println("Superhelt tilføjet til databasen.\n");
         } else System.out.println("Database er fuld.\n");
     }
@@ -176,6 +176,7 @@ public class Userinterface {
         } else System.out.println("Superhelt ikke fundet.");
     }
 
+    // TODO: virker ikke hvis listen er tom
     // sletter en superhelt fra databasen
     public void delete() {
         System.out.println(ctrl.indexedList());
@@ -217,6 +218,7 @@ public class Userinterface {
         System.out.println("3. Søg efter superhelt");
         System.out.println("4. Rediger superhelt");
         System.out.println("5. Slet en superhelt");
+        System.out.println("6. Gem liste");
         System.out.println("9. Afslut");
         System.out.print("> ");
     }
@@ -238,6 +240,7 @@ public class Userinterface {
                 case 3 -> search();
                 case 4 -> edit();
                 case 5 -> delete();
+                case 6 -> ctrl.saveList();
                 case 9 -> run = false;
                 default -> System.out.println("\nUgyldigt input.\n");
             }

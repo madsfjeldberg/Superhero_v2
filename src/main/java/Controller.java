@@ -8,7 +8,7 @@ public class Controller {
     public Controller() {
         db = new Database();
         fw = new FileWorker();
-        db.setHeroList(fw.loadList());
+        db.setHeroList(fw.loadList()); // .csv fil bliver loadet ind i arraylist i 'Database'
     }
 
     public void delete(int choice) {
@@ -55,8 +55,8 @@ public class Controller {
         fw.addSuperheroToFile(name, realName, superPower, yearCreated, isHuman, strength);
     }
 
-    public void saveList(ArrayList<Superhero> list) {
-        fw.saveList(list);
+    public void saveList() {
+        fw.saveList(db.getHeroList());
     }
 
 
