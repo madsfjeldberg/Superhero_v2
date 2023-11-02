@@ -3,12 +3,12 @@ import java.util.ArrayList;
 public class Controller {
 
     private final Database db;
-    private final FileWorker fw;
+    private final FileHandler fh;
 
     public Controller() {
         db = new Database();
-        fw = new FileWorker();
-        db.setHeroList(fw.loadList()); // .csv fil bliver loadet ind i arraylist i 'Database'
+        fh = new FileHandler();
+        db.setHeroList(fh.loadList()); // .csv fil bliver loadet ind i arraylist i 'Database'
     }
 
     public void delete(int choice) {
@@ -52,7 +52,7 @@ public class Controller {
     }
 
     public void saveList() {
-        fw.saveList(db.getHeroList());
+        fh.saveList(db.getHeroList());
     }
 
 
