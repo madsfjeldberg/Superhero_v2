@@ -1,3 +1,8 @@
+package userinterface;
+
+import domain.Controller;
+import domain.Superhero;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +20,7 @@ public class Userinterface {
 
     // tjekker om der er tal eller symboler i et string request
     public boolean stringTester(String string) {
+
         Pattern pattern = Pattern.compile("^[A-Za-z]+( [A-Za-z]+)?$");
         Matcher matcher = pattern.matcher(string);
         return !matcher.find();
@@ -22,6 +28,7 @@ public class Userinterface {
 
     // tilføj superhelt til database
     public void addSuperhero() {
+
         if (ctrl.getDatabaseSize() < ctrl.getMaxDatabaseSize()) {
             System.out.println("Indtast data:\n");
             System.out.print("Superheltenavn (skriv 'n' hvis de ikke har et): ");
@@ -79,13 +86,11 @@ public class Userinterface {
 
             ctrl.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
             System.out.println("Superhelt tilføjet til databasen.\n");
-        } else System.out.println("Database er fuld.\n");
+        } else System.out.println("domain.Database er fuld.\n");
     }
 
     // redigerer en superhelt
     public void edit() {
-
-        //TODO: brug indbygget search funktion i stedet
 
         System.out.println("Superhelte i database:");
         System.out.println(ctrl.showList());
@@ -100,14 +105,13 @@ public class Userinterface {
             }
         }
 
-        // TODO: ændr det her (somehow)
         if (chosenSuperhero != null) {
             String changeValueMessage = "Indtast ny værdi: ";
             System.out.println(ctrl.showInfo(chosenSuperhero));
             System.out.print("Hvad vil du ændre?: ");
             System.out.println();
             int choice = input.nextInt();
-            ctrl.edit(chosenSuperhero, choice);
+            // ctrl.edit(chosenSuperhero, choice);
             switch (choice) {
                 case 1 -> {
                     System.out.print(changeValueMessage);
@@ -148,6 +152,7 @@ public class Userinterface {
     // TODO: virker ikke hvis listen er tom
     // sletter en superhelt fra databasen
     public void delete() {
+
         System.out.println(ctrl.indexedList());
         System.out.print("Hvem skal slettes fra databasen? ");
         while (true) {
@@ -169,6 +174,7 @@ public class Userinterface {
     }
 
     public void search() {
+
         System.out.println("Søg efter superhelt: ");
         String search = input.nextLine();
         for (Superhero hero: ctrl.search(search)) {
@@ -179,6 +185,7 @@ public class Userinterface {
 
     // viser database menu
     public void databaseMenu() {
+
         System.out.print("─".repeat(25) + "\n");
         System.out.println("MENU");
         System.out.print("─".repeat(25) + "\n");
@@ -188,6 +195,8 @@ public class Userinterface {
         System.out.println("4. Rediger superhelt");
         System.out.println("5. Slet en superhelt");
         System.out.println("6. Gem liste");
+        System.out.println("7. Sortér liste (ikke implementeret)");
+        System.out.println("8. Sortér liste efter 2 param (ikke implementeret)");
         System.out.println("9. Afslut");
         System.out.print("> ");
     }
@@ -195,6 +204,7 @@ public class Userinterface {
     // TODO: exception handling ved indtastning af andet end int
     // viser menu, og kører alle metoder for databasen
     public void runDatabase() {
+
         boolean run = true;
         int choice;
         System.out.println("Velkommen til SUPERHERO UNIVERSET.");
@@ -209,6 +219,8 @@ public class Userinterface {
                 case 4 -> edit();
                 case 5 -> delete();
                 case 6 -> ctrl.saveList();
+                case 7 -> ctrl.sortListAfterRealName();
+                case 8 -> ctrl.sortListStrength();
                 case 9 -> run = false;
                 default -> System.out.println("\nUgyldigt input.\n");
             }

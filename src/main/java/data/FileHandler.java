@@ -1,3 +1,7 @@
+package data;
+
+import domain.Superhero;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;

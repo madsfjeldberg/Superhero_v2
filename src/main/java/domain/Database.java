@@ -1,4 +1,10 @@
+package domain;
+
+import data.FileHandler;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Database {
 
@@ -6,12 +12,19 @@ public class Database {
     private ArrayList<Superhero> heroList;
     private int size;
     private final int maxSize;
+    FileHandler fh;
 
     // konstruktør
     public Database() {
         heroList = new ArrayList<>();
         size = 0;
         maxSize = 10;
+        fh = new FileHandler();
+        heroList = fh.loadList(); // .csv fil bliver loadet ind i arraylist i 'domain.Database'
+    }
+
+    public void saveList() {
+        fh.saveList(getHeroList());
     }
 
     public ArrayList<Superhero> getHeroList() {
@@ -39,7 +52,7 @@ public class Database {
     }
 
     // skal måske bruges på et tidspunkt?
-    public void edit(Superhero hero, int choice) {}
+    // public void edit(domain.Superhero hero, int choice) {}
 
     public String showInfo(Superhero hero) {
         String output = "";

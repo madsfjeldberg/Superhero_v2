@@ -1,14 +1,16 @@
+package domain;
+
+import domain.comparators.StrengthComparator;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Controller {
 
     private final Database db;
-    private final FileHandler fh;
 
     public Controller() {
         db = new Database();
-        fh = new FileHandler();
-        db.setHeroList(fh.loadList()); // .csv fil bliver loadet ind i arraylist i 'Database'
     }
 
     public void delete(int choice) {
@@ -47,13 +49,19 @@ public class Controller {
         db.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
     }
 
-    public void edit(Superhero hero, int choice) {
-        db.edit(hero, choice);
+    public void saveList() {
+        db.saveList();
     }
 
-    public void saveList() {
-        fh.saveList(db.getHeroList());
+    public void sortListAfterRealName() {
+        Collections.sort(db.getHeroList());
     }
+
+    public void sortListStrength() {
+        Collections.sort(db.getHeroList(), new StrengthComparator());
+
+    }
+
 
 
 }

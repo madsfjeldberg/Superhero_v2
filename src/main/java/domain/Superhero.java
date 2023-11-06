@@ -1,4 +1,6 @@
-public class Superhero {
+package domain;
+
+public class Superhero implements Comparable<Superhero> {
 
     // attributes
     private String name;
@@ -18,7 +20,6 @@ public class Superhero {
         this.strength = strength;
     }
 
-    // get og set metoder til senere brug
     public void setName(String name) {
         this.name = name;
     }
@@ -65,6 +66,10 @@ public class Superhero {
 
     public int getStrength() {
         return strength;
+    }
+
+    public int compareTo(Superhero hero2) {
+        return name.compareTo(hero2.getName());
     }
 }
 
