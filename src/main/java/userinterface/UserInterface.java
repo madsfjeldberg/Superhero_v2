@@ -5,17 +5,18 @@ import domain.Superhero;
 import domain.comparators.*;
 
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // attributes
-public class Userinterface {
+public class UserInterface {
     private final Controller ctrl;
     Scanner input;
 
     // konstruktør
-    public Userinterface() {
+    public UserInterface() {
         ctrl = new Controller();
         input = new Scanner(System.in);
     }
@@ -185,56 +186,44 @@ public class Userinterface {
         }
     }
 
-    public void sortMetode() {
-        int choice;
-        System.out.println("Hvad vil du sortere efter?");
-        System.out.println
-                ("1. Superheltenavn\n" +
-                "2. Rigtige Navn\n" +
-                "3. Superkræft\n" +
-                "4. Årstal for skabelse\n" +
-                "5. Er Menneske\n" +
-                "6. Styrke\n");
-        choice = input.nextInt();
-        ctrl.sortListInput(choice);
+    public String numList() {
+        return """
+                1. Superheltenavn
+                2. Rigtige Navn
+                3. Superkræft
+                4. Årstal for skabelse
+                5. Er Menneske
+                6. Styrke
+                """;
     }
 
-    public void sortMetode2Parametre() {
-        Comparator choice1 = new SuperNameComparator();
-        Comparator choice2 = new SuperNameComparator();
-        System.out.println("Vælg 1. parameter:");
-        System.out.println
-                ("1. Superheltenavn\n" +
-                        "2. Rigtige Navn\n" +
-                        "3. Superkræft\n" +
-                        "4. Årstal for skabelse\n" +
-                        "5. Er Menneske\n" +
-                        "6. Styrke\n");
-        switch (input.nextInt()) {
-            case 1 -> choice1 = new SuperNameComparator();
-            case 2 -> choice1 = new RealNameComparator();
-            case 3 -> choice1 = new SuperpowerComparator();
-            case 4 -> choice1 = new YearComparator();
-            case 5 -> choice1 = new IsHumanComparator();
-            case 6 -> choice1 = new StrengthComparator();
+    public void sort() {
+        int choice;
+        System.out.println("Hvad vil du sortere efter?");
+        System.out.println(numList());
+        choice = input.nextInt();
+        ctrl.sort(choice);
+    }
+
+    public void sort2Parameters() {
+        Map<Integer, Comparator<Superhero>> comparatorMap = Map.of(
+                1, new SuperNameComparator(),
+                2, new RealNameComparator(),
+                3, new SuperpowerComparator(),
+                4, new YearComparator(),
+                5, new IsHumanComparator(),
+                6, new StrengthComparator()
+        );
+        Comparator<Superhero>[] choices = new Comparator[2];
+
+        for (int i=0; i < 2; i++) {
+            System.out.println("Vælg " + (i+1) + ". parameter:");
+            System.out.println(numList());
+            int choice = input.nextInt();
+
+            choices[i] = comparatorMap.getOrDefault(choice, new SuperNameComparator());
         }
-        System.out.println("Vælg 2. parameter:");
-        System.out.println
-                ("1. Superheltenavn\n" +
-                        "2. Rigtige Navn\n" +
-                        "3. Superkræft\n" +
-                        "4. Årstal for skabelse\n" +
-                        "5. Er Menneske\n" +
-                        "6. Styrke\n");
-        switch (input.nextInt()) {
-            case 1 -> choice2 = new SuperNameComparator();
-            case 2 -> choice2 = new RealNameComparator();
-            case 3 -> choice2 = new SuperpowerComparator();
-            case 4 -> choice2 = new YearComparator();
-            case 5 -> choice2 = new IsHumanComparator();
-            case 6 -> choice2 = new StrengthComparator();
-        }
-        ctrl.sortListInput2Parametre(choice1, choice2);
+        ctrl.sort2Parameters(choices[0], choices[1]);
     }
 
     // viser database menu
@@ -249,24 +238,27 @@ public class Userinterface {
         System.out.println("4. Rediger superhelt");
         System.out.println("5. Slet en superhelt");
         System.out.println("6. Gem liste");
-        System.out.println("7. Sortér liste (ikke implementeret)");
-        System.out.println("8. Sortér liste efter specifik parameter (ikke implementeret)");
+        System.out.println("7. Sortér liste");
+        System.out.println("8. Sortér liste efter specifik parameter");
         System.out.println("9. Sortér liste efter 2 parametre");
-        System.out.println("10. Afslut");
+        System.out.println("0. Afslut");
         System.out.print("> ");
     }
 
-    // TODO: exception handling ved indtastning af andet end int
     // viser menu, og kører alle metoder for databasen
     public void runDatabase() {
 
         boolean run = true;
-        int choice;
+        int choice = 99;
         System.out.println("Velkommen til SUPERHERO UNIVERSET.");
         do {
             databaseMenu();
-            choice = input.nextInt();
-            input.nextLine(); // fjerner dead space hvis det eksisterer
+            try {
+                System.out.print("Vælg en funktion:");
+                choice = Integer.parseInt(input.next());
+            } catch (NumberFormatException e) {
+                System.out.println("Du skal indtaste et nummer.");
+            }
             switch (choice) {
                 case 1 -> addSuperhero();
                 case 2 -> System.out.println(ctrl.showList());
@@ -274,18 +266,17 @@ public class Userinterface {
                 case 4 -> edit();
                 case 5 -> delete();
                 case 6 -> ctrl.saveList();
-                case 7 -> ctrl.sortListAfterRealName();
+                case 7 -> ctrl.sortDefault();
                 // TODO: print det pænt
                 case 8 -> {
-                    sortMetode();
+                    sort();
                     System.out.println(ctrl.showList());
                 }
                 case 9 -> {
-                    sortMetode2Parametre();
-                    System.out.println(ctrl.getHeroList());
+                    sort2Parameters();
+                    System.out.println(ctrl.showList());
                 }
-                case 10 -> run = false;
-                default -> System.out.println("\nUgyldigt input.\n");
+                case 0 -> run = false;
             }
         } while (run);
     }

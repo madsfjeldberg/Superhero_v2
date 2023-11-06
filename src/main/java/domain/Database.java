@@ -28,13 +28,11 @@ public class Database {
         fh.saveList(getHeroList());
     }
 
-    public void sortListInput2Parametre(Comparator choice1, Comparator choice2) {
-
+    public void sort2Parameters(Comparator<Superhero> choice1, Comparator<Superhero> choice2) {
         Collections.sort(heroList, choice1.thenComparing(choice2));
         }
 
-    public void sortListInput(int choice) {
-
+    public void sort(int choice) {
         switch (choice) {
             case 1 -> Collections.sort(heroList, new SuperNameComparator());
             case 2 -> Collections.sort(heroList, new RealNameComparator());
@@ -43,7 +41,6 @@ public class Database {
             case 5 -> Collections.sort(heroList, new IsHumanComparator());
             case 6 -> Collections.sort(heroList, new StrengthComparator());
         }
-
     }
 
     public ArrayList<Superhero> getHeroList() {
@@ -65,9 +62,6 @@ public class Database {
         }
         return output.toString();
     }
-
-    // skal måske bruges på et tidspunkt?
-    // public void edit(domain.Superhero hero, int choice) {}
 
     public String showInfo(Superhero hero) {
         String output = "";

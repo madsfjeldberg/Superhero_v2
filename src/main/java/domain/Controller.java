@@ -1,7 +1,5 @@
 package domain;
 
-import domain.comparators.StrengthComparator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,20 +52,16 @@ public class Controller {
         db.saveList();
     }
 
-    public void sortListAfterRealName() {
+    public void sortDefault() {
         Collections.sort(db.getHeroList());
     }
 
-    public void sortListStrength() {
-        Collections.sort(db.getHeroList(), new StrengthComparator());
+    public void sort(int choice) {
+        db.sort(choice);
     }
 
-    public void sortListInput(int choice) {
-        db.sortListInput(choice);
-    }
-
-    public void sortListInput2Parametre(Comparator choice1, Comparator choice2) {
-        db.sortListInput2Parametre(choice1, choice2);
+    public void sort2Parameters(Comparator<Superhero> choice1, Comparator<Superhero> choice2) {
+        db.sort2Parameters(choice1, choice2);
     }
 
 
