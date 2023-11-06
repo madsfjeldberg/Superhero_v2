@@ -21,7 +21,7 @@ public class FileHandler {
         try (PrintStream output = new PrintStream(file)) {
             for (Superhero hero : list) {
                 String out;
-                out = hero.getName() + "," + hero.getRealName() + "," + hero.getSuperPower()
+                out = hero.getSuperName() + "," + hero.getRealName() + "," + hero.getSuperPower()
                         + "," + hero.getYearCreated() + "," + hero.isHuman() + "," + hero.getStrength();
                 output.println(out);
                 System.out.println("Superhelt gemt.");

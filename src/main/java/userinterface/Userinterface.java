@@ -101,7 +101,7 @@ public class Userinterface {
         String search = input.nextLine();
         Superhero chosenSuperhero = null;
         for (Superhero hero : ctrl.getHeroList()) {
-            if (hero.getName().equalsIgnoreCase(search) ||
+            if (hero.getSuperName().equalsIgnoreCase(search) ||
                     hero.getRealName().equalsIgnoreCase(search)) {
                 chosenSuperhero = hero;
             }

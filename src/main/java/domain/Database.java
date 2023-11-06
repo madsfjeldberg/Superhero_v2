@@ -4,8 +4,8 @@ import data.FileHandler;
 import domain.comparators.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Database {
 
@@ -61,7 +61,7 @@ public class Database {
     public String showList() {
         StringBuilder output = new StringBuilder();
         for (Superhero i: heroList) {
-            output.append(i.getName()).append("\n");
+            output.append(i.getSuperName()).append("\n");
         }
         return output.toString();
     }
@@ -71,7 +71,7 @@ public class Database {
 
     public String showInfo(Superhero hero) {
         String output = "";
-        output += "1. Superheltenavn: " + hero.getName() + "\n";
+        output += "1. Superheltenavn: " + hero.getSuperName() + "\n";
         output += "2. Virkeligt navn: " + hero.getRealName() + "\n";
         output += "3. Superkræft: " + hero.getSuperPower() + "\n";
         output += "4. Oprindelsesår: " + hero.getYearCreated() + "\n";
@@ -85,7 +85,7 @@ public class Database {
         int index = 1;
         StringBuilder output = new StringBuilder();
         for (Superhero hero: heroList) {
-            output.append(index++).append(". ").append(hero.getName()).append("\n");
+            output.append(index++).append(". ").append(hero.getSuperName()).append("\n");
         }
         return output.toString();
     }
@@ -98,7 +98,7 @@ public class Database {
     public ArrayList<Superhero> search(String query) {
         ArrayList<Superhero> foundHeroes = new ArrayList<>();
         for (Superhero hero : heroList) {
-            if (hero.getName().toLowerCase().contains(query.toLowerCase()) ||
+            if (hero.getSuperName().toLowerCase().contains(query.toLowerCase()) ||
                     hero.getRealName().toLowerCase().contains(query.toLowerCase())) {
                 foundHeroes.add(hero);
             }

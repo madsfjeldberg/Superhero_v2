@@ -3,7 +3,7 @@ package domain;
 public class Superhero implements Comparable<Superhero> {
 
     // attributes
-    private String name;
+    private String superName;
     private String realName;
     private String superPower;
     private int yearCreated;
@@ -12,7 +12,7 @@ public class Superhero implements Comparable<Superhero> {
 
     // konstruktør
     public Superhero(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {
-        this.name = name;
+        this.superName = name;
         this.realName = realName;
         this.superPower = superPower;
         this.yearCreated = yearCreated;
@@ -21,7 +21,7 @@ public class Superhero implements Comparable<Superhero> {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.superName = name;
     }
 
     public void setRealName(String realName) {
@@ -44,8 +44,8 @@ public class Superhero implements Comparable<Superhero> {
         this.strength = strength;
     }
 
-    public String getName() {
-        return name;
+    public String getSuperName() {
+        return superName;
     }
 
     public String getRealName() {
@@ -69,7 +69,7 @@ public class Superhero implements Comparable<Superhero> {
     }
 
     public int compareTo(Superhero hero2) {
-        return name.compareTo(hero2.getName());
+        return superName.compareTo(hero2.getSuperName());
     }
 
     @Override
