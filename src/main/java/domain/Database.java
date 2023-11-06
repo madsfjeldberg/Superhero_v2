@@ -1,6 +1,7 @@
 package domain;
 
 import data.FileHandler;
+import domain.comparators.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,12 +28,26 @@ public class Database {
         fh.saveList(getHeroList());
     }
 
-    public ArrayList<Superhero> getHeroList() {
-        return heroList;
+    public void sortListInput2Parametre(Comparator choice1, Comparator choice2) {
+
+        Collections.sort(heroList, choice1.thenComparing(choice2));
+        }
+
+    public void sortListInput(int choice) {
+
+        switch (choice) {
+            case 1 -> Collections.sort(heroList, new SuperNameComparator());
+            case 2 -> Collections.sort(heroList, new RealNameComparator());
+            case 3 -> Collections.sort(heroList, new SuperpowerComparator());
+            case 4 -> Collections.sort(heroList, new YearComparator());
+            case 5 -> Collections.sort(heroList, new IsHumanComparator());
+            case 6 -> Collections.sort(heroList, new StrengthComparator());
+        }
+
     }
 
-    public void setHeroList(ArrayList<Superhero> list) {
-        this.heroList = list;
+    public ArrayList<Superhero> getHeroList() {
+        return heroList;
     }
 
     public int getSize() {

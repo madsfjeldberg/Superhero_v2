@@ -71,6 +71,13 @@ public class Superhero implements Comparable<Superhero> {
     public int compareTo(Superhero hero2) {
         return name.compareTo(hero2.getName());
     }
+
+    @Override
+    public String toString() {
+        return "Superheltenavn: " + superName + "\n" +"Rigtigt navn: " + realName + "\n" +
+                "Superkræft" + superPower + "\n" + "Årstal: " + yearCreated + "\n" + "Er menneske: "
+                + isHuman + "\n" + "Styrke: " + strength + "\n";
+    }
 }
 
 
