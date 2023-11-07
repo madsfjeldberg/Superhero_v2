@@ -48,8 +48,8 @@ public class Controller {
         db.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
     }
 
-    public void saveList() {
-        db.saveList();
+    public ReturnValue saveList() {
+        return db.saveList();
     }
 
     public void sortDefault() {

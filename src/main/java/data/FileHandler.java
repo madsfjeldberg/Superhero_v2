@@ -24,7 +24,6 @@ public class FileHandler {
                 out = hero.getSuperName() + "," + hero.getRealName() + "," + hero.getSuperPower()
                         + "," + hero.getYearCreated() + "," + hero.isHuman() + "," + hero.getStrength();
                 output.println(out);
-                System.out.println("Superhelt gemt.");
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

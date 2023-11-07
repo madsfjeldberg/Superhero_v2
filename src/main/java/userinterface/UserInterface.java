@@ -3,7 +3,6 @@ package userinterface;
 import domain.Controller;
 import domain.Superhero;
 import domain.comparators.*;
-
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Scanner;
@@ -89,7 +88,7 @@ public class UserInterface {
 
             ctrl.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
             System.out.println("Superhelt tilføjet til databasen.\n");
-        } else System.out.println("domain.Database er fuld.\n");
+        } else System.out.println("Database er fuld.\n");
     }
 
     // redigerer en superhelt
@@ -98,8 +97,9 @@ public class UserInterface {
         System.out.println("Superhelte i database:");
         System.out.println(ctrl.showList());
 
+        String search;
         System.out.print("Hvilken superhelt vil du redigere?: ");
-        String search = input.nextLine();
+        search = input.nextLine();
         Superhero chosenSuperhero = null;
         for (Superhero hero : ctrl.getHeroList()) {
             if (hero.getSuperName().equalsIgnoreCase(search) ||
@@ -232,17 +232,19 @@ public class UserInterface {
         System.out.print("─".repeat(25) + "\n");
         System.out.println("MENU");
         System.out.print("─".repeat(25) + "\n");
-        System.out.println("1. Opret superhelt");
-        System.out.println("2. Vis liste");
-        System.out.println("3. Søg efter superhelt");
-        System.out.println("4. Rediger superhelt");
-        System.out.println("5. Slet en superhelt");
-        System.out.println("6. Gem liste");
-        System.out.println("7. Sortér liste");
-        System.out.println("8. Sortér liste efter specifik parameter");
-        System.out.println("9. Sortér liste efter 2 parametre");
-        System.out.println("0. Afslut");
-        System.out.print("> ");
+        System.out.println("""
+                1. Opret superhelt
+                2. Vis liste
+                3. Søg efter superhelt
+                4. Rediger superhelt
+                5. Slet en superhelt
+                6. Gem liste
+                7. Sortér liste
+                8. Sortér liste efter parameter
+                9. Sortér liste efter 2 parametre
+                0. Afslut
+                > 
+                """);
     }
 
     // viser menu, og kører alle metoder for databasen
@@ -255,7 +257,7 @@ public class UserInterface {
             databaseMenu();
             try {
                 System.out.print("Vælg en funktion:");
-                choice = Integer.parseInt(input.next());
+                choice = Integer.parseInt(input.nextLine().trim());
             } catch (NumberFormatException e) {
                 System.out.println("Du skal indtaste et nummer.");
             }
@@ -265,7 +267,12 @@ public class UserInterface {
                 case 3 -> search();
                 case 4 -> edit();
                 case 5 -> delete();
-                case 6 -> ctrl.saveList();
+                case 6 -> {
+                    switch (ctrl.saveList()) {
+                        case OK -> System.out.println("Liste gemt.");
+                        case CANT -> System.out.println("Ingen ændringer at gemme.");
+                    }
+                }
                 case 7 -> ctrl.sortDefault();
                 // TODO: print det pænt
                 case 8 -> {

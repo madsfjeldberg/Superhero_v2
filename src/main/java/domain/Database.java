@@ -2,7 +2,6 @@ package domain;
 
 import data.FileHandler;
 import domain.comparators.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,6 +9,7 @@ import java.util.Comparator;
 public class Database {
 
     // attributes
+    private ArrayList<Superhero> loadedList;
     private ArrayList<Superhero> heroList;
     private int size;
     private final int maxSize;
@@ -22,10 +22,29 @@ public class Database {
         maxSize = 10;
         fh = new FileHandler();
         heroList = fh.loadList(); // .csv fil bliver loadet ind i arraylist i 'domain.Database'
+        loadedList = new ArrayList<>(heroList);
+
     }
 
-    public void saveList() {
-        fh.saveList(getHeroList());
+    public boolean identicalCheck(ArrayList<Superhero> one, ArrayList<Superhero> two) {
+        // sætter lister til ny variable så vi ikke sorterer
+        // på de originale lister
+        one = new ArrayList<>(one);
+        two = new ArrayList<>(two);
+        // sorterer midlertidige lister, og checker om de er ens
+        Collections.sort(one);
+        Collections.sort(two);
+        return one.equals(two);
+
+    }
+
+    public ReturnValue saveList() {
+        if (!identicalCheck(heroList, loadedList)) {
+            fh.saveList(heroList);
+            loadedList = new ArrayList<>(heroList);
+            return ReturnValue.OK;
+        } else return ReturnValue.CANT;
+
     }
 
     public void sort2Parameters(Comparator<Superhero> choice1, Comparator<Superhero> choice2) {
@@ -106,6 +125,7 @@ public class Database {
     public void addSuperhero(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {
         Superhero superhero = new Superhero(name, realName, superPower, yearCreated, isHuman, strength);
         heroList.add(superhero);
+
         size++;
     }
 
