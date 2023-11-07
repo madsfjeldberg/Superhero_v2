@@ -4,6 +4,7 @@ import domain.Controller;
 import domain.Superhero;
 import domain.comparators.*;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -38,38 +39,34 @@ public class UserInterface {
             if  (name.equals("n")) {
                 name = "";
             }
-            while (stringTester(name)) {
-                System.out.println("Du skal indtaste et gyldigt navn.");
-                name = input.nextLine();
-            }
 
             System.out.print("\nRigtige navn: ");
             String realName = input.nextLine();
-            while (stringTester(realName)) {
-                System.out.println("Du skal indtaste et gyldigt navn.");
-                input.nextLine();
-            }
 
             System.out.print("\nSuperkræft: ");
             String superPower = input.nextLine();
-            while (stringTester(superPower)) {
-                System.out.println("Du skal indtaste en gyldig superkræft.");
-                input.nextLine();
+
+            int yearCreated = 0;
+            System.out.print("\nÅrstal for skabelse: ");
+            while (true) {
+                if (input.hasNextInt()) {
+                    yearCreated = input.nextInt();
+                    break; // Exit the loop once a valid integer is entered
+                } else {
+                    System.out.println("Du skal indtaste et tal.");
+                    input.next(); // Consume the invalid input to avoid an infinite loop
+                }
             }
 
-            System.out.print("\nÅrstal for skabelse: ");
-            while (!input.hasNextInt()) {
-                System.out.println("Du skal indtaste et tal.");
-                input.next();
-            }
-            int yearCreated = input.nextInt();
+
 
             System.out.print("\nEr superhelten et menneske? [y/n]: ");
-            String svar = input.next();
+            input.nextLine();
+            String svar = input.nextLine();
             String isHuman;
             while (!svar.equals("y") && !svar.equals("n")) {
                 System.out.println("Ugyldigt svar.");
-                svar = input.next();
+                svar = input.nextLine();
             }
             if (svar.equals("y")) {
                 isHuman = "JA";
@@ -88,6 +85,7 @@ public class UserInterface {
 
             ctrl.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
             System.out.println("Superhelt tilføjet til databasen.\n");
+            input.nextLine();
         } else System.out.println("Database er fuld.\n");
     }
 
@@ -113,8 +111,17 @@ public class UserInterface {
             System.out.println(ctrl.showInfo(chosenSuperhero));
             System.out.print("Hvad vil du ændre?: ");
             System.out.println();
-            int choice = input.nextInt();
-            // ctrl.edit(chosenSuperhero, choice);
+            int choice = 0;
+            while (true) {
+                if (input.hasNextInt()) {
+                    choice =  input.nextInt();
+                    break;
+                } else {
+                    System.out.println("Du skal indtaste et tal.");
+                    input.next();
+                }
+            }
+
             switch (choice) {
                 case 1 -> {
                     System.out.print(changeValueMessage);
@@ -149,6 +156,7 @@ public class UserInterface {
             }
             System.out.println("Superhelt opdateret:");
             System.out.println(ctrl.showInfo(chosenSuperhero));
+            input.nextLine();
         } else System.out.println("Superhelt ikke fundet.");
     }
 
@@ -161,7 +169,7 @@ public class UserInterface {
         while (true) {
             if (!input.hasNextInt()) {
                 System.out.println("Du skal indtaste et tal.");
-                input.next();
+                input.nextLine();
             } else {
                 int choice = input.nextInt();
                 if (choice >= 1 && choice <= ctrl.getHeroList().size()) {
@@ -201,6 +209,7 @@ public class UserInterface {
         int choice;
         System.out.println("Hvad vil du sortere efter?");
         System.out.println(numList());
+        // TODO: try/catch blok
         choice = input.nextInt();
         ctrl.sort(choice);
     }
@@ -219,6 +228,7 @@ public class UserInterface {
         for (int i=0; i < 2; i++) {
             System.out.println("Vælg " + (i+1) + ". parameter:");
             System.out.println(numList());
+            // TODO: try/catch blok
             int choice = input.nextInt();
 
             choices[i] = comparatorMap.getOrDefault(choice, new SuperNameComparator());
@@ -243,7 +253,7 @@ public class UserInterface {
                 8. Sortér liste efter parameter
                 9. Sortér liste efter 2 parametre
                 0. Afslut
-                > 
+                >
                 """);
     }
 

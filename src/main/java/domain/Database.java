@@ -22,29 +22,46 @@ public class Database {
         maxSize = 10;
         fh = new FileHandler();
         heroList = fh.loadList(); // .csv fil bliver loadet ind i arraylist i 'domain.Database'
-        loadedList = new ArrayList<>(heroList);
+        loadedList = fh.loadList();
 
     }
 
     public boolean identicalCheck(ArrayList<Superhero> one, ArrayList<Superhero> two) {
-        // sætter lister til ny variable så vi ikke sorterer
-        // på de originale lister
-        one = new ArrayList<>(one);
-        two = new ArrayList<>(two);
-        // sorterer midlertidige lister, og checker om de er ens
-        Collections.sort(one);
-        Collections.sort(two);
-        return one.equals(two);
+        if (one.size() != two.size()) {
+            // Lists have different sizes, so they can't be identical
+            return false;
+        }
 
+        for (int i = 0; i < one.size(); i++) {
+            Superhero hero1 = one.get(i);
+            Superhero hero2 = two.get(i);
+
+            // Compare the attributes of hero1 and hero2
+            if (!areSuperheroesEqual(hero1, hero2)) {
+                return false; // Values are not equal
+            }
+        }
+
+        // All superheroes are equal in attributes
+        return true;
+    }
+
+    // Helper method to check if two Superhero objects have equal attributes
+    private boolean areSuperheroesEqual(Superhero hero1, Superhero hero2) {
+        return hero1.getSuperName().equals(hero2.getSuperName()) &&
+                hero1.getRealName().equals(hero2.getRealName()) &&
+                hero1.getSuperPower().equals(hero2.getSuperPower()) &&
+                hero1.getYearCreated() == hero2.getYearCreated() &&
+                hero1.isHuman().equals(hero2.isHuman()) &&
+                hero1.getStrength() == hero2.getStrength();
     }
 
     public ReturnValue saveList() {
         if (!identicalCheck(heroList, loadedList)) {
             fh.saveList(heroList);
-            loadedList = new ArrayList<>(heroList);
+            loadedList = fh.loadList(); // resetter listen
             return ReturnValue.OK;
         } else return ReturnValue.CANT;
-
     }
 
     public void sort2Parameters(Comparator<Superhero> choice1, Comparator<Superhero> choice2) {
@@ -125,7 +142,6 @@ public class Database {
     public void addSuperhero(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {
         Superhero superhero = new Superhero(name, realName, superPower, yearCreated, isHuman, strength);
         heroList.add(superhero);
-
         size++;
     }
 
