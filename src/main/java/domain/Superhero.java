@@ -75,8 +75,9 @@ public class Superhero implements Comparable<Superhero> {
     @Override
     public String toString() {
         return "Superheltenavn: " + superName + "\n" +"Rigtigt navn: " + realName + "\n" +
-                "Superkræft" + superPower + "\n" + "Årstal: " + yearCreated + "\n" + "Er menneske: "
+                "Superkræft: " + superPower + "\n" + "Årstal: " + yearCreated + "\n" + "Er menneske: "
                 + isHuman + "\n" + "Styrke: " + strength + "\n";
+
     }
 }
 

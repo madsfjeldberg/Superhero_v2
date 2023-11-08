@@ -185,13 +185,9 @@ public class UserInterface {
     }
 
     public void search() {
-
         System.out.println("Søg efter superhelt: ");
         String search = input.nextLine();
-        for (Superhero hero: ctrl.search(search)) {
-            System.out.println(ctrl.showInfo(hero));
-            System.out.println();
-        }
+        System.out.println(ctrl.search(search));
     }
 
     public String numList() {

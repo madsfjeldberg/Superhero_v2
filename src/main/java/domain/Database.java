@@ -2,7 +2,10 @@ package domain;
 
 import data.FileHandler;
 import domain.comparators.*;
+
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -125,7 +128,7 @@ public class Database {
     }
 
     // viser en liste af superhelte der passer med 'query'
-    public ArrayList<Superhero> search(String query) {
+    public String search(String query) {
         ArrayList<Superhero> foundHeroes = new ArrayList<>();
         for (Superhero hero : heroList) {
             if (hero.getSuperName().toLowerCase().contains(query.toLowerCase()) ||
@@ -136,7 +139,7 @@ public class Database {
         if (foundHeroes.isEmpty()) {
             System.out.println("No hero found");
         }
-        return foundHeroes;
+        return Arrays.toString(foundHeroes.toArray()).replace("[", "").replace("]", "").replace(",", "");
     }
 
     public void addSuperhero(String name, String realName, String superPower, int yearCreated, String isHuman, int strength) {

@@ -28,7 +28,7 @@ public class Controller {
         return db.getHeroList();
     }
 
-    public ArrayList<Superhero> search(String query) {
+    public String search(String query) {
         return db.search(query);
     }
 
