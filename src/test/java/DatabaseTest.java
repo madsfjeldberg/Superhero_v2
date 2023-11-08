@@ -15,6 +15,9 @@ public class DatabaseTest {
     Database db;
     FileHandler fh;
     ArrayList<Superhero> list;
+    Superhero hero;
+    Superhero hero2;
+    Superhero hero3;
 
     @BeforeEach
     void setup() {
@@ -22,9 +25,9 @@ public class DatabaseTest {
         fh = new FileHandler("herolistTEST.csv");
         list = new ArrayList<>();
         db.getHeroList().clear();
-        Superhero hero = new Superhero("Hero", "hero1", "testkræft", 1, "JA", 100);
-        Superhero hero2 = new Superhero("Hero2", "hero2", "testkræft2", 2, "NEJ", 200);
-        Superhero hero3 = new Superhero("Hero3", "hero3", "testkræft3", 3, "JA", 300);
+        hero = new Superhero("Hero", "hero1", "testkræft", 1, "JA", 100);
+        hero2 = new Superhero("Hero2", "hero2", "testkræft2", 2, "NEJ", 200);
+        hero3 = new Superhero("Hero3", "hero3", "testkræft3", 3, "JA", 300);
         list.add(hero);
         list.add(hero2);
         list.add(hero3);
@@ -33,6 +36,17 @@ public class DatabaseTest {
 
     @Test
     void saveList() {
+        ArrayList<Superhero> list2 = new ArrayList<>();
+        ArrayList<Superhero> list3 = new ArrayList<>();
+        list3.add(hero);
+        list3.add(hero2);
+
+        list2.addAll(list);
+
+        assertAll("Tester",
+                () -> assertEquals(list, list2),
+                () -> assertNotEquals(list, list3)
+        );
 
     }
 

@@ -11,14 +11,12 @@ import java.util.Comparator;
 
 public class Database {
 
-    // attributes
     private ArrayList<Superhero> loadedList;
     private ArrayList<Superhero> heroList;
     private int size;
     private final int maxSize;
     FileHandler fh;
 
-    // konstruktør
     public Database() {
         heroList = new ArrayList<>();
         size = 0;
@@ -31,7 +29,6 @@ public class Database {
 
     public boolean identicalCheck(ArrayList<Superhero> one, ArrayList<Superhero> two) {
         if (one.size() != two.size()) {
-            // Lists have different sizes, so they can't be identical
             return false;
         }
 
@@ -39,17 +36,17 @@ public class Database {
             Superhero hero1 = one.get(i);
             Superhero hero2 = two.get(i);
 
-            // Compare the attributes of hero1 and hero2
+            // Sammenlign attributerne af hero1 og hero2
             if (!areSuperheroesEqual(hero1, hero2)) {
-                return false; // Values are not equal
+                return false; // Hvis værdierne ikke er ens
             }
         }
 
-        // All superheroes are equal in attributes
+        // Alle superhelte er ens i attributer
         return true;
     }
 
-    // Helper method to check if two Superhero objects have equal attributes
+    // Hjælpe metode ti lat tjekke om to Superhelte har samme attributer
     private boolean areSuperheroesEqual(Superhero hero1, Superhero hero2) {
         return hero1.getSuperName().equals(hero2.getSuperName()) &&
                 hero1.getRealName().equals(hero2.getRealName()) &&
