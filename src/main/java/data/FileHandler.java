@@ -4,6 +4,7 @@ import domain.Superhero;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,6 +22,13 @@ public class FileHandler {
     }
 
     public void saveList(ArrayList<Superhero> list) {
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         try (PrintStream output = new PrintStream(file)) {
             for (Superhero hero : list) {
