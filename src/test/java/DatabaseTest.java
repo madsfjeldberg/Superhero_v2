@@ -36,23 +36,20 @@ public class DatabaseTest {
 
     @Test
     void saveList() {
-        ArrayList<Superhero> list2 = new ArrayList<>();
+        ArrayList<Superhero> list2 = new ArrayList<>(list);
+
         ArrayList<Superhero> list3 = new ArrayList<>();
         list3.add(hero);
         list3.add(hero2);
 
-        list2.addAll(list);
-
-        assertAll("Tester",
+        assertAll("Tester på true og false",
                 () -> assertEquals(list, list2),
                 () -> assertNotEquals(list, list3)
         );
-
     }
 
     @Test
     void search() {
-
         String expected = """ 
                 Superheltenavn: Hero
                 Rigtigt navn: hero1
@@ -61,10 +58,8 @@ public class DatabaseTest {
                 Er menneske: JA
                 Styrke: 100
                 """;
-
-        String result = db.search("hero1");
-
-        assertEquals(result, expected);
+        String actual = db.search("hero1");
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -75,6 +70,6 @@ public class DatabaseTest {
                 3. Hero3
                 """;
         String actual = db.indexedList();
-        assertEquals(expected, actual);
+        assertEquals(actual, expected);
     }
 }

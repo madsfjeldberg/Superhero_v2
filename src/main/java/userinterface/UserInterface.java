@@ -4,7 +4,6 @@ import domain.Controller;
 import domain.Superhero;
 import domain.comparators.*;
 import java.util.Comparator;
-import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -23,7 +22,6 @@ public class UserInterface {
 
     // tjekker om der er tal eller symboler i et string request
     public boolean stringTester(String string) {
-
         Pattern pattern = Pattern.compile("^[A-Za-z]+( [A-Za-z]+)?$");
         Matcher matcher = pattern.matcher(string);
         return !matcher.find();
@@ -46,7 +44,7 @@ public class UserInterface {
             System.out.print("\nSuperkræft: ");
             String superPower = input.nextLine();
 
-            int yearCreated = 0;
+            int yearCreated;
             System.out.print("\nÅrstal for skabelse: ");
             while (true) {
                 if (input.hasNextInt()) {
@@ -111,7 +109,7 @@ public class UserInterface {
             System.out.println(ctrl.showInfo(chosenSuperhero));
             System.out.print("Hvad vil du ændre?: ");
             System.out.println();
-            int choice = 0;
+            int choice;
             while (true) {
                 if (input.hasNextInt()) {
                     choice =  input.nextInt();
@@ -205,8 +203,12 @@ public class UserInterface {
         int choice;
         System.out.println("Hvad vil du sortere efter?");
         System.out.println(numList());
-        // TODO: try/catch blok
+        while (!input.hasNextInt()) {
+            System.out.println("Du skal indtaste et tal.");
+            input.next();
+        }
         choice = input.nextInt();
+        input.nextLine();
         ctrl.sort(choice);
     }
 
@@ -225,7 +227,12 @@ public class UserInterface {
             System.out.println("Vælg " + (i+1) + ". parameter:");
             System.out.println(numList());
             // TODO: try/catch blok
+            while (!input.hasNextInt()) {
+                System.out.println("Du skal indtaste et tal.");
+                input.next();
+            }
             int choice = input.nextInt();
+            input.nextLine();
 
             choices[i] = comparatorMap.getOrDefault(choice, new SuperNameComparator());
         }

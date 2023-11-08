@@ -17,10 +17,6 @@ public class FileHandler {
         file = new File(f);
     }
 
-    public File getFile() {
-        return file;
-    }
-
     public void saveList(ArrayList<Superhero> list) {
         if (!file.exists()) {
             try {

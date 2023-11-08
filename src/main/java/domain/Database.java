@@ -3,10 +3,8 @@ package domain;
 import data.FileHandler;
 import domain.comparators.*;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class Database {
@@ -65,17 +63,17 @@ public class Database {
     }
 
     public void sort2Parameters(Comparator<Superhero> choice1, Comparator<Superhero> choice2) {
-        Collections.sort(heroList, choice1.thenComparing(choice2));
+        heroList.sort(choice1.thenComparing(choice2));
         }
 
     public void sort(int choice) {
         switch (choice) {
-            case 1 -> Collections.sort(heroList, new SuperNameComparator());
-            case 2 -> Collections.sort(heroList, new RealNameComparator());
-            case 3 -> Collections.sort(heroList, new SuperpowerComparator());
-            case 4 -> Collections.sort(heroList, new YearComparator());
-            case 5 -> Collections.sort(heroList, new IsHumanComparator());
-            case 6 -> Collections.sort(heroList, new StrengthComparator());
+            case 1 -> heroList.sort(new SuperNameComparator());
+            case 2 -> heroList.sort(new RealNameComparator());
+            case 3 -> heroList.sort(new SuperpowerComparator());
+            case 4 -> heroList.sort(new YearComparator());
+            case 5 -> heroList.sort(new IsHumanComparator());
+            case 6 -> heroList.sort(new StrengthComparator());
         }
     }
 
