@@ -246,17 +246,10 @@ public class UserInterface {
         System.out.println("MENU");
         System.out.print("─".repeat(25) + "\n");
         System.out.println("""
-                1. Opret superhelt
-                2. Vis liste
-                3. Søg efter superhelt
-                4. Rediger superhelt
-                5. Slet en superhelt
-                6. Gem liste
-                7. Sortér liste
-                8. Sortér liste efter parameter
-                9. Sortér liste efter 2 parametre
+                1. Opret superhelt   |  2. Vis liste             |    3. Søg efter superhelt
+                4. Rediger superhelt |  5. Slet en superhelt     |    6. Gem liste
+                7. Sortér liste      |  8. Sortér liste m. param |    9. Sortér liste efter 2 parametre
                 0. Afslut
-                >
                 """);
     }
 
