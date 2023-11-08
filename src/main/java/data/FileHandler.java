@@ -12,8 +12,12 @@ public class FileHandler {
 
     private final File file;
 
-    public FileHandler() {
-        file = new File("herolist.csv");
+    public FileHandler(String f) {
+        file = new File(f);
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public void saveList(ArrayList<Superhero> list) {

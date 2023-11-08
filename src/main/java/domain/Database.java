@@ -20,7 +20,7 @@ public class Database {
         heroList = new ArrayList<>();
         size = 0;
         maxSize = 10;
-        fh = new FileHandler();
+        fh = new FileHandler("herolist.csv");
         heroList = fh.loadList(); // .csv fil bliver loadet ind i arraylist i 'domain.Database'
         loadedList = fh.loadList();
 
