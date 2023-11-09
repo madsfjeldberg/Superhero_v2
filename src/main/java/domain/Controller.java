@@ -60,7 +60,7 @@ public class Controller {
         db.sort(choice);
     }
 
-    public void sort2Parameters(Comparator<Superhero> choice1, Comparator<Superhero> choice2) {
+    public void sort2Parameters(int choice1, int choice2) {
         db.sort2Parameters(choice1, choice2);
     }
 

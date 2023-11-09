@@ -22,7 +22,7 @@ public class UserInterface {
 
     // tjekker om der er tal eller symboler i et string request
     public boolean stringTester(String string) {
-        Pattern pattern = Pattern.compile("^[A-Za-z]+( [A-Za-z]+)?$");
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9]+( [A-Za-z0-9]+)?$");
         Matcher matcher = pattern.matcher(string);
         return !matcher.find();
     }
@@ -31,6 +31,7 @@ public class UserInterface {
     public void addSuperhero() {
 
         if (ctrl.getDatabaseSize() < ctrl.getMaxDatabaseSize()) {
+            // TODO: check for int
             System.out.println("Indtast data:\n");
             System.out.print("Superheltenavn (skriv 'n' hvis de ikke har et): ");
             String name = input.nextLine();
@@ -49,10 +50,10 @@ public class UserInterface {
             while (true) {
                 if (input.hasNextInt()) {
                     yearCreated = input.nextInt();
-                    break; // Exit the loop once a valid integer is entered
+                    break;
                 } else {
                     System.out.println("Du skal indtaste et tal.");
-                    input.next(); // Consume the invalid input to avoid an infinite loop
+                    input.next();
                 }
             }
 
@@ -158,7 +159,7 @@ public class UserInterface {
         } else System.out.println("Superhelt ikke fundet.");
     }
 
-    // TODO: virker ikke hvis listen er tom
+    // TODO: virker ikke hvis listen er tom - nok ikke kritisk
     // sletter en superhelt fra databasen
     public void delete() {
 
@@ -212,29 +213,22 @@ public class UserInterface {
         ctrl.sort(choice);
     }
 
+    // skal skrives om
     public void sort2Parameters() {
-        Map<Integer, Comparator<Superhero>> comparatorMap = Map.of(
-                1, new SuperNameComparator(),
-                2, new RealNameComparator(),
-                3, new SuperpowerComparator(),
-                4, new YearComparator(),
-                5, new IsHumanComparator(),
-                6, new StrengthComparator()
-        );
-        Comparator<Superhero>[] choices = new Comparator[2];
+
+        Integer[] choices = new Integer[2];
 
         for (int i=0; i < 2; i++) {
-            System.out.println("Vælg " + (i+1) + ". parameter:");
+            System.out.println("Vælg " + (i + 1) + ". parameter:");
             System.out.println(numList());
-            // TODO: try/catch blok
             while (!input.hasNextInt()) {
                 System.out.println("Du skal indtaste et tal.");
                 input.next();
             }
             int choice = input.nextInt();
-            input.nextLine();
+            choices[i] = choice;
 
-            choices[i] = comparatorMap.getOrDefault(choice, new SuperNameComparator());
+            // choices[i] = comparatorMap.getOrDefault(choice, new SuperNameComparator());
         }
         ctrl.sort2Parameters(choices[0], choices[1]);
     }

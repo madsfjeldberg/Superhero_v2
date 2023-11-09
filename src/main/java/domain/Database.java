@@ -6,6 +6,7 @@ import domain.comparators.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
 
 public class Database {
 
@@ -62,8 +63,20 @@ public class Database {
         } else return ReturnValue.CANT;
     }
 
-    public void sort2Parameters(Comparator<Superhero> choice1, Comparator<Superhero> choice2) {
-        heroList.sort(choice1.thenComparing(choice2));
+    public void sort2Parameters(int choice1, int choice2) {
+        Map<Integer, Comparator<Superhero>> comparatorMap = Map.of(
+                1, new SuperNameComparator(),
+                2, new RealNameComparator(),
+                3, new SuperpowerComparator(),
+                4, new YearComparator(),
+                5, new IsHumanComparator(),
+                6, new StrengthComparator()
+        );
+        Comparator<Superhero>[] choices = new Comparator[2];
+        choices[0] = comparatorMap.getOrDefault(choice1, new SuperNameComparator());
+        choices[1] = comparatorMap.getOrDefault(choice2, new SuperNameComparator());
+
+        heroList.sort(choices[0].thenComparing(choices[1]));
         }
 
     public void sort(int choice) {
