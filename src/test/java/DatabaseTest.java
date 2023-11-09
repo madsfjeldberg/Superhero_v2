@@ -140,15 +140,16 @@ public class DatabaseTest {
         list2.add(new Superhero("Batman", "Bruce Wayne", "Rich", 1939, "YES", 200));
         list2.add(new Superhero("Superman", "Jenny", "Power2", 2010, "NO", 150));
 
-        assertTrue(db.identicalCheck(list1, list2));
-
         //Hvis listen ikke matcher
         ArrayList<Superhero> list3 = new ArrayList<>();
         list3.add(new Superhero("Batman", "Bruce Wayne", "Rich", 1939, "YES", 200));
         list3.add(new Superhero("Superman", "John", "Power2", 2010, "NO", 150));
         list3.add(new Superhero("Hero3", "Mike", "Power3", 2020, "YES", 120));
 
-        assertFalse(db.identicalCheck(list1, list3), "Case 2: Lists are not identical");
+        assertAll( "Double test",
+                () -> assertTrue(db.identicalCheck(list1, list2), "Case 1: Lists are identical"),
+                () -> assertFalse(db.identicalCheck(list1, list3), "Case 2: Lists are not identical")
+        );
     }
     @Test
     void testDelete() {
