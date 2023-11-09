@@ -183,6 +183,7 @@ public class DatabaseTest {
                         hero.isHuman().equals(isHuman) &&
                         hero.getStrength() == strength));
     }
+
 }
 
 
