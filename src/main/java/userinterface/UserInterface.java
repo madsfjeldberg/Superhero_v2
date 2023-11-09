@@ -2,9 +2,6 @@ package userinterface;
 
 import domain.Controller;
 import domain.Superhero;
-import domain.comparators.*;
-import java.util.Comparator;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
