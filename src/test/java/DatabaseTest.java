@@ -184,13 +184,6 @@ public class DatabaseTest {
                         hero.getStrength() == strength));
     }
 
-
-
-
-
-
-
-
 }
 
 
