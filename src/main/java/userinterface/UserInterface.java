@@ -162,24 +162,28 @@ public class UserInterface {
     // TODO: virker ikke hvis listen er tom - nok ikke kritisk
     // sletter en superhelt fra databasen
     public void delete() {
+        boolean loop = true;
 
         System.out.println(ctrl.indexedList());
         System.out.print("Hvem skal slettes fra databasen? ");
-        while (true) {
+        while (loop) {
             if (!input.hasNextInt()) {
                 System.out.println("Du skal indtaste et tal.");
                 input.nextLine();
-            } else {
+            }
+            else {
                 int choice = input.nextInt();
+                input.nextLine();
                 if (choice >= 1 && choice <= ctrl.getHeroList().size()) {
                     ctrl.delete(choice - 1); // kald til database for at slette
                     System.out.println("\nSletter fra database...");
                     System.out.println("Superhelt slettet.\n");
-                    break;
+                    loop = false;
                 } else {
                     System.out.println("Du skal indtaste gyldigt tal mellem 1 og " + ctrl.getHeroList().size() + ".");
                 }
             }
+
         }
     }
 

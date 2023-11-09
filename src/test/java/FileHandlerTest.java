@@ -37,7 +37,7 @@ public class FileHandlerTest {
         }
     }
 
-    // kunne evt. gøres mere robust med et 'for' loop
+    // Kunne evt. gøres mere robust med et 'for' loop
     @Test
     void saveList() throws IOException {
 
@@ -51,7 +51,7 @@ public class FileHandlerTest {
     }
 
     @Test
-    void loadList() throws IOException {
+    void loadList() {
 
         fh.saveList(list); // ved godt det en dårlig idé, kigger på det senere
         assertEquals(list.toString(), fh.loadList().toString());

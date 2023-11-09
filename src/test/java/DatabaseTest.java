@@ -2,16 +2,13 @@ import data.FileHandler;
 import domain.Database;
 import domain.Superhero;
 
+import domain.comparators.StrengthComparator;
 import domain.comparators.SuperNameComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import domain.comparators.SuperNameComparator;
 import domain.comparators.RealNameComparator;
 
 
@@ -79,36 +76,35 @@ public class DatabaseTest {
     }
 
    @Test
-void showInfo() {
+    void showInfo() {
+        String expected = "";
+        expected += "1. Superheltenavn: " + hero.getSuperName() + "\n";
+        expected += "2. Virkeligt navn: " + hero.getRealName() + "\n";
+        expected += "3. Superkræft: " + hero.getSuperPower() + "\n";
+        expected += "4. Oprindelsesår: " + hero.getYearCreated() + "\n";
+        expected += "5. Er menneske: " + hero.isHuman() + "\n";
+        expected += "6. Styrke: " + hero.getStrength();
+        String actual = db.showInfo(hero);
+        assertEquals(actual, expected);
+    }
 
-    String expected = "";
-    expected += "1. Superheltenavn: " + hero.getSuperName() + "\n";
-    expected += "2. Virkeligt navn: " + hero.getRealName() + "\n";
-    expected += "3. Superkræft: " + hero.getSuperPower() + "\n";
-    expected += "4. Oprindelsesår: " + hero.getYearCreated() + "\n";
-    expected += "5. Er menneske: " + hero.isHuman() + "\n";
-    expected += "6. Styrke: " + hero.getStrength();
-    String actual = db.showInfo(hero);
-    assertEquals(actual, expected);
-}
 
-    //Hvorfor virker det ikke? Resultat er ens
     @Test
     void showList() {
         StringBuilder expected = new StringBuilder();
         for (Superhero i : list) {
             expected.append(i.getSuperName()).append("\n");
         }
-        expected.toString();
+
         String actual = db.showList();
-        assertEquals(actual, expected);
+        assertEquals(actual, expected.toString());
     }
 
     @Test
     void testSort() {
         // Arrange: Create a sorted copy of the list
         ArrayList<Superhero> sortedList = new ArrayList<>(list);
-        sortedList.sort(new SuperNameComparator());
+        sortedList.sort(new StrengthComparator());
 
         // Act: Sort the original list
         db.sort(1); // Sort by real name (you can replace 2 with the appropriate choice)
@@ -116,14 +112,16 @@ void showInfo() {
         // Assert: Compare the sorted list with the list in the database
         assertEquals(sortedList, db.getHeroList());
     }
+
     @Test
     void testSort2Parameters() {
         // Arrange: Create a sorted copy of the list using two comparators
         ArrayList<Superhero> sortedList = new ArrayList<>(list);
-        sortedList.sort(new SuperNameComparator().thenComparing(new SuperNameComparator()));
+        sortedList.sort(new SuperNameComparator().thenComparing(new RealNameComparator()));
 
         // Act: Sort the original list using two comparators
-        db.sort2Parameters(new RealNameComparator(), new SuperNameComparator());
+        // den er ændret, tager kun int input
+        db.sort2Parameters(1, 2);
 
         // Assert: Compare the sorted list with the list in the database
         assertEquals(sortedList, db.getHeroList());
