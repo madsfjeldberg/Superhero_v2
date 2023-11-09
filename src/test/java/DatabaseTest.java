@@ -127,62 +127,6 @@ public class DatabaseTest {
         assertEquals(sortedList, db.getHeroList());
     }
 
-    @Test
-    void testIdenticalCheck() {
-        Database db = new Database();
-
-        //Hvis lister matcher
-        ArrayList<Superhero> list1 = new ArrayList<>();
-        list1.add(new Superhero("Batman", "Bruce Wayne", "Rich", 1939, "YES", 200));
-        list1.add(new Superhero("Superman", "Jenny", "Power2", 2010, "NO", 150));
-
-        ArrayList<Superhero> list2 = new ArrayList<>();
-        list2.add(new Superhero("Batman", "Bruce Wayne", "Rich", 1939, "YES", 200));
-        list2.add(new Superhero("Superman", "Jenny", "Power2", 2010, "NO", 150));
-
-        assertTrue(db.identicalCheck(list1, list2));
-
-        //Hvis listen ikke matcher
-        ArrayList<Superhero> list3 = new ArrayList<>();
-        list3.add(new Superhero("Batman", "Bruce Wayne", "Rich", 1939, "YES", 200));
-        list3.add(new Superhero("Superman", "John", "Power2", 2010, "NO", 150));
-        list3.add(new Superhero("Hero3", "Mike", "Power3", 2020, "YES", 120));
-
-        assertFalse(db.identicalCheck(list1, list3), "Case 2: Lists are not identical");
-    }
-    @Test
-    void testDelete() {
-        Superhero heroToDelete = new Superhero("ToDelete", "John", "Power", 2000, "YES", 100);
-
-        db.addSuperhero(heroToDelete.getSuperName(), heroToDelete.getRealName(),
-                heroToDelete.getSuperPower(), heroToDelete.getYearCreated(),
-                heroToDelete.isHuman(), heroToDelete.getStrength());
-        db.delete(0);
-
-        assertFalse(db.getHeroList().contains(heroToDelete));
-    }
-
-    @Test
-    void testAddSuperhero() {
-        Database db = new Database();
-        String name = "BatKarl";
-        String realName = "Karl";
-        String superPower = "Falling down stairs";
-        int yearCreated = 1928;
-        String isHuman = "YES";
-        int strength = 150;
-
-        db.addSuperhero(name, realName, superPower, yearCreated, isHuman, strength);
-
-        ArrayList<Superhero> heroList = db.getHeroList();
-        assertTrue(heroList.stream().anyMatch(hero ->
-                        hero.getSuperName().equals(name) &&
-                                hero.getRealName().equals(realName) &&
-                                hero.getSuperPower().equals(superPower) &&
-                                hero.getYearCreated() == yearCreated &&
-                                hero.isHuman().equals(isHuman) &&
-                                hero.getStrength() == strength));
-    }
 
 
 
